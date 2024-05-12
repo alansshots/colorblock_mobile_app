@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import React from 'react'
 import { Slot, Stack, SplashScreen } from 'expo-router'
 import { useFonts } from "expo-font";
+import 'react-native-reanimated';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -25,25 +26,17 @@ const RootLayout = () => {
           if(fontsLoaded) SplashScreen.hideAsync();
       }, [fontsLoaded, error]) 
 
-      if(!fontsLoaded && !error) return null;
+      // if(!fontsLoaded && !error) return null;
 
   return (
     <>
         <Stack>
-            <Stack.Screen name="index" options={{headerShown: false}}/>
+            <Stack.Screen name="index" options={{ headerShown: false }}/>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }}/>
+            <Stack.Screen name="/search/[query]" options={{ headerShown: false }}/>
         </Stack>
     </>
   )
 }
 
 export default RootLayout
-
-const styles = StyleSheet.create({
-    container: {
-      display: 'flex',
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
