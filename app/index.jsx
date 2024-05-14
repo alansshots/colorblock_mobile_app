@@ -1,5 +1,4 @@
 import React from 'react'
-import 'react-native-url-polyfill/auto'
 import { StatusBar } from 'expo-status-bar'
 import { Link, router, Redirect } from 'expo-router'
 import { Text, View, ScrollView, Image } from 'react-native';
@@ -48,12 +47,11 @@ const RootLayout = () => {
             containerStyles='w-full mt-7'
           />
 
+          <StatusBar backgroundColor='#161622' style='light' />
+
         </View>
       </ScrollView>
 
-      <StatusBar
-        backgroundColor='#161622' style='light'
-      />
     </SafeAreaView>
   )
 }
