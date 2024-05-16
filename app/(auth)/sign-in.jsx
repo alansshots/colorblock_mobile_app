@@ -1,13 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link } from 'expo-router'
+import { Link, router} from 'expo-router'
 import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 
+import { supabase } from '../../lib/supabase'
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import { signIn } from '../../lib/appwrite'
 
 const SighIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,23 +16,27 @@ const SighIn = () => {
     password: "",
   });
 
+  async function signInWithEmail(email, password) {
+    setIsSubmitting(true)
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    })
+
+    if (error) {
+      Alert.alert(error.message)
+    } else {
+      router.replace('/home')
+    }
+
+    setIsSubmitting(false)
+  }
+
   const submit = async () => {
     if (form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
-
-    setIsSubmitting(true);
-    try {
-      await signIn( form.email, form.password);
-      // setUser(result);
-      // setIsLogged(true);
-
-      router.replace("/home");
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    signInWithEmail(form.email, form.password);
   }
 
   return (

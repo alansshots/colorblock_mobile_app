@@ -1,11 +1,17 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import { View, Text, SafeAreaView, ScrollView} from 'react-native'
+import { supabase } from '../../lib/supabase'
 
 const Home = () => {
+  
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <SafeAreaView className='bg-primary h-full'>
+      <ScrollView contentContainerStyle= {{ height: '100%' }}>
+        <View>
+          <Text>Home</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 

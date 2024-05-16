@@ -6,35 +6,38 @@ import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 
+import { supabase } from '../../lib/supabase'
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import {createUser} from '../../lib/appwrite'
 
 const SighUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState({
-    username: "",
     email: "",
     password: "",
   });
 
+  async function signUpWithEmail(email, password) {
+    setIsSubmitting(true);
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    })
+
+    if (error) Alert.alert(error.message)
+    if (!session) Alert.alert('Please check your inbox for email verification!')
+    router.replace('/home')
+    setIsSubmitting(false);
+  }
+
   const submit = async () => {
-    if (form.username === "" || form.email === "" || form.password === "") {
+    if (form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
-
-    setIsSubmitting(true);
-    try {
-      const result = await createUser(form.email, form.password, form.username);
-      // setUser(result);
-      // setIsLogged(true);
-
-      router.replace("/home");
-    } catch (error) {
-      Alert.alert("Error", error.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    signUpWithEmail(form.email, form.password);
   };
 
   return (
@@ -50,13 +53,6 @@ const SighUp = () => {
           <Text className="text-2xl text-white text-semibold mt-10 font-psemibold">
             Sign Up to Aora
           </Text>
-
-          <FormField
-            title="Username"
-            value={form.username}
-            handleChangeText={(e) => setForm({ ...form, username: e })}
-            otherStyles="mt-10"
-          />
 
           <FormField
             title="Email"
