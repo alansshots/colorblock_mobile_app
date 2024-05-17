@@ -9,12 +9,12 @@ import CustomButton from '../components/CustomButton';
 
 const RootLayout = () => {
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-default h-full">
       <ScrollView contentContainerStyle= {{ height: '100%' }}>
         <View className="w-full justify-center items-center min-h-[85vh] px-4">
           <Image 
             source={images.logo}
-            className="w-[130px] h-[85px]"
+            className="w-[225px] h-[85px]"
             resizeMode="contain"
           />
 
@@ -26,31 +26,30 @@ const RootLayout = () => {
 
           <View className='relative mt-5'>
             <Text className="text-3xl text-white font-bold text-center">
-                Discover Endless Possibilities with {' '}
-                <Text className="text-secondary-200">Aora</Text>
+                Create and Share digital cards{' '}
+                <Text className="text-primary">effortlessly</Text>
             </Text>
 
             <Image 
               source={images.path}
-              className='w-[130px] h-[15px] absolute -bottom-2 -right-8'
+              className='w-[160px] h-[15px] absolute -bottom-2 right-10'
               resizeMode='contain'
             />
           </View>
 
           <Text className='text-sm font-pregular text-gray-100 text-center mt-7'>
-            Where creativity meets innovation: Embark on a Journey of Limitless Exploration with Aora.
+          Go Digital, Share Everywhere, Make Every Connection Count with Ease.
           </Text>
 
           <CustomButton 
-            title="Continue with Email"
+            title="Get Started"
             handlePress={() => router.push('/sign-in')}
             containerStyles='w-full mt-7'
           />
 
         </View>
+        <StatusBar style='light'/>
       </ScrollView>
-
-      <StatusBar backgroundColor='#161622' style='light' />
 
     </SafeAreaView>
   )

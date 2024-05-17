@@ -29,7 +29,7 @@ const SighUp = () => {
 
     if (error) Alert.alert(error.message)
     if (!session) Alert.alert('Please check your inbox for email verification!')
-    router.replace('/home')
+    router.replace('/card')
     setIsSubmitting(false);
   }
 
@@ -41,17 +41,17 @@ const SighUp = () => {
   };
 
   return (
-    <SafeAreaView className='bg-primary h-full'>
+    <SafeAreaView className='bg-default h-full'>
       <ScrollView>
         <View className='w-full justify-center h-full px-4 my-6'>
           <Image 
             source={images.logo}
-            className='w-[115px] h-[35px]'
+            className='w-[180px] h-[35px]'
             resizeMode='contain'
           />
 
-          <Text className="text-2xl text-white text-semibold mt-10 font-psemibold">
-            Sign Up to Aora
+          <Text className="text-xl text-white text-semibold mt-10 font-psemibold">
+            Sign Up 
           </Text>
 
           <FormField
@@ -82,7 +82,7 @@ const SighUp = () => {
             </Text>
             <Link
               href='/sign-in'
-              className='text-lg font-psemibold text-secondary'
+              className='text-lg font-psemibold text-primary'
             >
               Sign in
             </Link>

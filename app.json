@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Aora",
+    "name": "Colorblock",
     "scheme": "aora",
     "slug": "aora",
     "version": "1.0.0",
@@ -13,8 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "package": "com.alen.aora" 
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
