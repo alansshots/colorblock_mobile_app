@@ -41,7 +41,7 @@ const SighUp = () => {
   };
 
   return (
-    <SafeAreaView className='bg-default h-full'>
+    <SafeAreaView className='bg-[#161622] h-full'>
       <ScrollView>
         <View className='w-full justify-center h-full px-4 my-6'>
           <Image 
