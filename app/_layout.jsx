@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { useEffect } from 'react';
 import React from 'react'
 import { Slot, Stack, SplashScreen } from 'expo-router'
@@ -33,7 +33,9 @@ const RootLayout = () => {
         <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }}/>
             <Stack.Screen name="(auth)" options={{ headerShown: false }}/>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
         </Stack>
+        <StatusBar style='light'/>
     </>
   )
 }
