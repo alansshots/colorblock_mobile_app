@@ -1,9 +1,10 @@
+import React from 'react'
 import { View, Text, Image } from 'react-native'
 import { Tabs, Redirect } from 'expo-router'
-import React from 'react'
 import 'react-native-reanimated';
 
 import {icons} from '../../constants'
+import {images} from '../../constants';
 
 const TabIcon = ({icon, color, name, focused}) => {
   return (
@@ -33,7 +34,7 @@ const TabsLayout = () => {
           backgroundColor: '#161622',
           borderTopColor: 1,
           borderTopColor: '#232533',
-          height: 85,
+          height: 87,
         }
 
       }}
@@ -44,7 +45,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused}) => (
               <TabIcon
-                icon={icons.home}
+                icon={icons.qr}
                 color={color}
                 name="Share"
                 focused={focused}
@@ -58,7 +59,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused}) => (
               <TabIcon
-                icon={icons.plus}
+                icon={images.logoSmall}
                 color={color}
                 name="My Card"
                 focused={focused}
@@ -72,7 +73,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused}) => (
               <TabIcon
-                icon={icons.profile}
+                icon={icons.cog}
                 color={color}
                 name="Settings"
                 focused={focused}

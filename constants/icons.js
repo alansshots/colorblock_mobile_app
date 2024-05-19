@@ -11,6 +11,8 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
+import cog from "../assets/icons/cog.png";
+import qr from "../assets/icons/qr-code.png"
 
 export default {
   play,
@@ -26,4 +28,6 @@ export default {
   logout,
   eyeHide,
   eye,
+  cog,
+  qr,
 };
