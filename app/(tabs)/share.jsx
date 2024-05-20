@@ -25,12 +25,12 @@ const Share = () => {
             <Text className='text-white font-psemibold font-semibold mt-2 text-[17px] text-center'>Alen Gospodinov</Text>
             <View className='mt-5 p-2 bg-white rounded-xl'>
             <QRCodeStyled
-              data={'Simple QR Code'}
+              data={'https://kartaa.netlify.app/card/5711293f-79bd-4f50-8c5d-dcc85da1e584'}
               style={{backgroundColor: 'white'}}
               padding={10}
-              pieceSize={10}
+              pieceSize={6}
               outerEyesOptions={{
-                borderRadius: 20
+                borderRadius: 10
               }}
               pieceBorderRadius={4}
               isPiecesGlued
