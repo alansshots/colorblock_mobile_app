@@ -26,7 +26,7 @@ const SighIn = () => {
     if (error) {
       Alert.alert(error.message)
     } else {
-      router.replace('/card')
+      router.replace('/share')
     }
 
     setIsSubmitting(false)
