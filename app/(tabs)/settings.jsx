@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { router, Redirect } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { supabase } from '../../lib/supabase';
 import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView, Alert} from 'react-native';
 
@@ -141,6 +142,7 @@ const Settings = () => {
 
         </ScrollView>
       </View>
+      <StatusBar style='light'/>
     </SafeAreaView>
   )
 }
