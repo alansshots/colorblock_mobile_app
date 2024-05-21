@@ -70,7 +70,7 @@ const TabsLayout = () => {
             <Tabs.Screen name="settings"
           options={{
             title: 'Settings',
-            headerShown: false,
+            headerShown: false,      
             tabBarIcon: ({ color, focused}) => (
               <TabIcon
                 icon={icons.cog}

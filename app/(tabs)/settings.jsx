@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { router, Redirect } from 'expo-router';
+import { supabase } from '../../lib/supabase';
+import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView, Alert} from 'react-native';
 
 const Settings = () => {
+
+  const doLogOut = async () => {
+   const {error} = await supabase.auth.signOut();
+   router.replace('/')
+    if(error) {
+      Alert.alert("Error Signing Out", error.message);
+    }
+  }
+
+
   return (
     <SafeAreaView className="flex-1 bg-[#161622]">
       <View className="p-0 flex-grow flex-shrink flex-basis">
@@ -119,9 +131,7 @@ const Settings = () => {
           <View className="rounded-lg shadow bg-red-900">
             <View className="p-3">
               <TouchableOpacity
-                onPress={() => {
-                  // handle onPress
-                }}
+                onPress={() => {doLogOut()}}
                 className="flex-row items-center justify-center">
                 <Text className="text-lg font-semibold text-white">Log Out</Text>
               </TouchableOpacity>

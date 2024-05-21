@@ -1,13 +1,31 @@
 import React from 'react'
+import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar'
 import { Link, router, Redirect } from 'expo-router'
-import { Text, View, ScrollView, Image } from 'react-native';
+import { Text, View, ScrollView, Image, Alert} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { supabase } from '../lib/supabase'
+import { Session } from '@supabase/supabase-js'
 
 import { images } from '../constants'
 import CustomButton from '../components/CustomButton';
 
 const RootLayout = () => {
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if(session) {
+        router.replace('/share')
+      }
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if(session) {
+        router.replace('/share')
+      }
+    })
+  }, [])
+
   return (
     <SafeAreaView className="bg-[#161622] h-full">
       <ScrollView contentContainerStyle= {{ height: '100%' }}>

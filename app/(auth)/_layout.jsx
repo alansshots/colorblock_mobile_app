@@ -1,7 +1,11 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { View, Text } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Stack } from 'expo-router'
+
+import { supabase } from '../../lib/supabase'
+import { Session } from '@supabase/supabase-js'
 
 const AuthLayout = () => {
   return (
