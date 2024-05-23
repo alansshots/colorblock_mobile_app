@@ -1,13 +1,15 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { View, Text, SafeAreaView ,ScrollView, Image, StatusBar, StyleSheet, Alert, TouchableOpacity } from 'react-native'
-import { PlusSquare, X } from 'lucide-react-native'
 
+import RBSheet from 'react-native-raw-bottom-sheet';
+import { ArrowLeft, PlusSquare, X } from 'lucide-react-native'
 import { icons } from '../../constants'
 import { supabase } from '../../lib/supabase'
 
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
+import LinksPicker from '../../components/LinksPicker'
 
 const styles = StyleSheet.create({
   background: {
@@ -30,6 +32,8 @@ const styles = StyleSheet.create({
 });
 
 const Card = () => {
+  const bottomSheetRef = useRef(null);
+  const [linkFormField, setLinkFormField] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState('');
   const [card, setCard] = useState('');
@@ -99,17 +103,21 @@ const Card = () => {
         ])
         .eq('user_id', user.id);
 
-
-        // if (error) {
-        //   Alert.alert("Error updating card", error.message);
-        // } else {
-        //   console.log('Card updated successfully:', data);
-        //   setCard(data[0]);
-        // }
-
         Alert.alert('Card Updated Successfully.')
 
         setIsLoading(false);
+     }
+
+     const openBottomSheet = () => {
+      bottomSheetRef.current.open();
+     };
+   
+     const closeBottomSheet = () => {
+      bottomSheetRef.current.close();
+     };
+
+     const openLinkForm = (linkType) => {
+      setLinkFormField(true)
      }
 
   return (
@@ -174,7 +182,7 @@ const Card = () => {
             <TouchableOpacity 
             className='bg-[#232533] w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
             onPress={() => {
-              
+              openBottomSheet()
             }}
           >
             <PlusSquare 
@@ -187,9 +195,7 @@ const Card = () => {
           <TouchableOpacity 
             key={index}
             className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
-            onPress={() => {
-              
-            }}
+            onPress={() => {}}
           >
             <Image source={icons[link.name]} className="w-14 h-14 rounded-2xl mb-1"  resizeMode="contain" />
             <Text className="text-white font-pregular">{link.name}</Text>
@@ -205,16 +211,132 @@ const Card = () => {
           ))}
           </View>
 
+
           <CustomButton
             title="Update Card"
             handlePress={handleCardSubmit}
             containerStyles="mt-7 mb-5"
             isLoading={isLoading}
           />
-
         </View>
       </View>
+
+      <RBSheet 
+        ref={bottomSheetRef}
+        height={550}
+        draggable={true}
+        customModalProps={{
+          animationType: 'slide',
+          statusBarTranslucent: true,
+        }}
+        customStyles={{
+          wrapper: {
+            backgroundColor: ''
+          },
+          container: {
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            backgroundColor: '#232533'
+          },
+          draggableIcon:{
+            width: "40%",
+            padding: '10px'
+
+          }
+        }}
+      >
+        <ScrollView>
+        <View style={{ backgroundColor: '232533', padding: 16 }}>
+
+        {linkFormField && (
+        <View className="h-full transition-200 duration-200">
+            <TouchableOpacity 
+              className='bg-[#232533] mb-10 rounded-xl'
+              onPress={() => {setLinkFormField(false)}}
+            >
+              <ArrowLeft className="text-white p-5"/>
+            </TouchableOpacity>
+
+          <View className="flex flex-row justify-start items-center">
+            <TouchableOpacity 
+              className='bg-[#232533] mb-2 h-24 rounded-xl flex flex-col justify-center items-center'
+              onPress={() => {}}
+            >
+              <Image source={icons.Instagram} className="w-20 h-20 rounded-2xl"  resizeMode="contain" />
+              {/* <Text className="text-white font-pregular">Instagram</Text> */}
+            </TouchableOpacity>
+            <Text className="text-white text-xl font-psemibold ml-10 w-1/2">Instagram</Text>
+          </View>
+          <View>
+            <FormField 
+              title="Link"
+              // value={form.password}
+              placeholder={'Instagram Account Link'}
+              // handleChangeText={(e) => setForm({ ...form, password: e})}
+              // otherStyles='mt-7'
+            />
+
+            <CustomButton
+              title='Add Link'
+              // handlePress={submit}
+              containerStyles="mt-7"
+              // isLoading={isSubmitting}
+            />
+          </View>
+        </View>
+        )}
+        
+        <View>
+          <Text className="text-gray-100 text-md font-psemibold">Recommended</Text>
+          <View className="w-full flex flex-row flex-wrap justify-start items-center">
+            <TouchableOpacity 
+            className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
+            onPress={() => {
+              openLinkForm('Facebook')
+            }}
+          >
+            <Image source={icons.Facebook} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
+            <Text className="text-white font-pregular">Facebook</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text className="text-gray-100 text-md font-psemibold">Social</Text>
+          <View className="w-full flex flex-row flex-wrap justify-start items-center">
+            <TouchableOpacity 
+            className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
+            onPress={() => {
+              // openLinkSheet
+            }}
+          >
+            <Image source={icons.Facebook} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
+            <Text className="text-white font-pregular">Facebook</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text className="text-gray-100 text-md font-psemibold">Business</Text>
+          <View className="w-full flex flex-row flex-wrap justify-start items-center">
+            <TouchableOpacity 
+            className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
+            onPress={() => {
+              // openLinkSheet
+            }}
+          >
+            <Image source={icons.Facebook} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
+            <Text className="text-white font-pregular">Facebook</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+
+      
+
+          <TouchableOpacity onPress={closeBottomSheet} />
+        </View>
+        </ScrollView>
+      </RBSheet>
+
     </View>
+
     <StatusBar style='light'/>
       </ScrollView>
     // </SafeAreaView>
