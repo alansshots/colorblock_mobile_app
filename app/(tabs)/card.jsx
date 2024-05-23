@@ -34,6 +34,50 @@ const styles = StyleSheet.create({
 const Card = () => {
   const bottomSheetRef = useRef(null);
   const [linkFormField, setLinkFormField] = useState(false);
+  const [recommendedLinks, setRecommendedLinks] = useState([
+    'Facebook',
+    'Instagram',
+    'WhatsApp',
+    'Snapchat',
+    'TikTok',
+    'Reddit',
+    'Telegram',
+    'GitHub',
+    'LinkedIn'
+  ]);
+  const [socialLinks, setSocialLinks] = useState([
+    'Behance',
+    'DeviantArt',
+    'Discord',
+    'Dribbble',
+    'Facebook',
+    'Instagram',
+    'Line',
+    'LinkedIn',
+    'Pinterest',
+    'Reddit',
+    'Signal',
+    'Snapchat',
+    'Telegram',
+    'TikTok',
+    'Tumblr',
+    'VK',
+    'WeChat',
+    'WhatsApp',
+    'YouTube',
+    'GitHub'
+  ]);
+  const [businessLinks, setBusinessLinks] = useState([
+    'Behance',
+    'LinkedIn',
+    'Line',
+    'Signal',
+    'WhatsApp',
+    'GitHub',
+    'Telegram',
+    'WeChat',
+  ]);
+  const [linkHolder, setLinkHolder] = useState('')
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState('');
   const [card, setCard] = useState('');
@@ -117,8 +161,14 @@ const Card = () => {
      };
 
      const openLinkForm = (linkType) => {
+      setLinkHolder(linkType)
       setLinkFormField(true)
      }
+
+     const getLinkValue = (platform) => {
+      const link = form.links.find(link => link && link.name === platform);
+      return link ? link.url : '';
+    };
 
   return (
     // <SafeAreaView className="bg-[#161622] h-full">
@@ -249,31 +299,31 @@ const Card = () => {
         <View style={{ backgroundColor: '232533', padding: 16 }}>
 
         {linkFormField && (
-        <View className="h-full transition-200 duration-200">
-            <TouchableOpacity 
-              className='bg-[#232533] mb-10 rounded-xl'
-              onPress={() => {setLinkFormField(false)}}
-            >
-              <ArrowLeft className="text-white p-5"/>
-            </TouchableOpacity>
+        <View className=" transition-200 duration-200">
+          <TouchableOpacity 
+            className='bg-[#232533] mb-10 rounded-xl'
+            onPress={() => {setLinkFormField(false)}}
+          >
+            <ArrowLeft className="text-white p-5"/>
+          </TouchableOpacity>
 
           <View className="flex flex-row justify-start items-center">
             <TouchableOpacity 
               className='bg-[#232533] mb-2 h-24 rounded-xl flex flex-col justify-center items-center'
               onPress={() => {}}
             >
-              <Image source={icons.Instagram} className="w-20 h-20 rounded-2xl"  resizeMode="contain" />
-              {/* <Text className="text-white font-pregular">Instagram</Text> */}
+              <Image source={icons[linkHolder]} className="w-20 h-20 rounded-2xl"  resizeMode="contain" />
             </TouchableOpacity>
-            <Text className="text-white text-xl font-psemibold ml-10 w-1/2">Instagram</Text>
+            <Text className="text-white text-xl font-psemibold ml-10 w-1/2">{linkHolder}</Text>
           </View>
+          
           <View>
             <FormField 
               title="Link"
-              // value={form.password}
-              placeholder={'Instagram Account Link'}
+              value={getLinkValue(linkHolder)}
+              placeholder={`${linkHolder} Account Link`}
               // handleChangeText={(e) => setForm({ ...form, password: e})}
-              // otherStyles='mt-7'
+              otherStyles='mt-3'
             />
 
             <CustomButton
@@ -285,49 +335,59 @@ const Card = () => {
           </View>
         </View>
         )}
-        
+        {linkFormField == false && (
         <View>
           <Text className="text-gray-100 text-md font-psemibold">Recommended</Text>
           <View className="w-full flex flex-row flex-wrap justify-start items-center">
+          {recommendedLinks.map((link, index) => (
             <TouchableOpacity 
+            key={index}
             className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
             onPress={() => {
-              openLinkForm('Facebook')
+              openLinkForm(link)
             }}
           >
-            <Image source={icons.Facebook} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
-            <Text className="text-white font-pregular">Facebook</Text>
+            <Image source={icons[link]} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
+            <Text className="text-white font-pregular">{link}</Text>
             </TouchableOpacity>
+          ))}
+
           </View>
 
-          <Text className="text-gray-100 text-md font-psemibold">Social</Text>
+          <Text className="text-gray-100 text-md font-psemibold mt-7">Social</Text>
           <View className="w-full flex flex-row flex-wrap justify-start items-center">
-            <TouchableOpacity 
-            className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
-            onPress={() => {
-              // openLinkSheet
-            }}
-          >
-            <Image source={icons.Facebook} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
-            <Text className="text-white font-pregular">Facebook</Text>
-            </TouchableOpacity>
+            {socialLinks.map((link, index) => (
+              <TouchableOpacity 
+              key={index}
+              className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
+              onPress={() => {
+                openLinkForm(link)
+              }}
+            >
+              <Image source={icons[link]} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
+              <Text className="text-white font-pregular">{link}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
 
-          <Text className="text-gray-100 text-md font-psemibold">Business</Text>
+          <Text className="text-gray-100 text-md font-psemibold mt-7">Business</Text>
           <View className="w-full flex flex-row flex-wrap justify-start items-center">
-            <TouchableOpacity 
-            className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
-            onPress={() => {
-              // openLinkSheet
-            }}
-          >
-            <Image source={icons.Facebook} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
-            <Text className="text-white font-pregular">Facebook</Text>
-            </TouchableOpacity>
+            {businessLinks.map((link, index) => (
+              <TouchableOpacity 
+              key={index}
+              className='bg-[#232533] relative w-[31%] mr-2 mb-2 h-24 p-4 rounded-xl flex flex-col justify-center items-center'
+              onPress={() => {
+                openLinkForm(link)
+              }}
+            >
+              <Image source={icons[link]} className="w-14 h-14 rounded-2xl mb-1" resizeMode="contain" />
+              <Text className="text-white font-pregular">{link}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
 
         </View>
-
+        )}
       
 
           <TouchableOpacity onPress={closeBottomSheet} />
