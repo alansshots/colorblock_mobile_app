@@ -77,7 +77,8 @@ const Card = () => {
     'Telegram',
     'WeChat',
   ]);
-  const [linkHolder, setLinkHolder] = useState('')
+  const [linkHolder, setLinkHolder] = useState('');
+  const [currentLink, setCurrentLink] = useState({ name: '', url: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState('');
   const [card, setCard] = useState('');
@@ -141,6 +142,7 @@ const Card = () => {
             phone: form.phone,
             location: form.location,
             bio: form.bio,
+            selected_links: form.links,
             profile_img_url: form.profileImg,
             bg_img_url: form.coverPhoto,
           },
@@ -161,6 +163,13 @@ const Card = () => {
      };
 
      const openLinkForm = (linkType) => {
+      const existingLink = form.links.find(link => link.name === linkType);
+      if (existingLink) {
+        setCurrentLink(existingLink);
+      } else {
+        setCurrentLink({ name: linkType, url: '' }); // If the link doesn't exist, initialize with empty URL
+      }
+
       setLinkHolder(linkType)
       setLinkFormField(true)
      }
@@ -168,6 +177,48 @@ const Card = () => {
      const getLinkValue = (platform) => {
       const link = form.links.find(link => link && link.name === platform);
       return link ? link.url : '';
+    };
+
+    const addLink = async (platform, url) => {
+      const existingLinkIndex = form.links.findIndex(link => link.name === currentLink.name);
+      
+      if (existingLinkIndex !== -1) {
+        form.links[existingLinkIndex] = { ...currentLink };
+      } else {
+        // Otherwise, add it to the links array
+        form.links.push({ ...currentLink });
+      }
+      // Update the links in the database
+      const { data, error } = await supabase
+        .from('cards')
+        .update([{ selected_links: form.links }])
+        .eq('user_id', user.id);
+      if (error) {
+        console.error('Error updating links:', error.message);
+        return;
+      }
+      // Reset the current link state and close the link form
+      setCurrentLink({ name: '', url: '' });
+      setLinkFormField(false);
+    } 
+
+    const removeLink = async (linkName) => {
+      // Filter out the link to be removed
+      const updatedLinks = form.links.filter(link => link.name !== linkName);
+    
+      // Update the links in the database
+      const { data, error } = await supabase
+        .from('cards')
+        .update([{ selected_links: updatedLinks }])
+        .eq('user_id', user.id);
+    
+      if (error) {
+        console.error('Error updating links:', error.message);
+        return;
+      }
+    
+      // Update the local state with the updated links
+      setForm({ ...form, links: updatedLinks });
     };
 
   return (
@@ -187,7 +238,7 @@ const Card = () => {
         </View>
         <View className="px-4">
           
-          <Text className="text-white">{JSON.stringify(form.phone)}</Text>
+          {/* <Text className="text-white">{JSON.stringify(form.phone)}</Text> */}
 
           <View className="mb-2">
             <FormField 
@@ -252,7 +303,7 @@ const Card = () => {
             <TouchableOpacity 
               className="absolute bg-white shadow-xl top-0 right-0 mt-1 mr-1 p-0.5 text-red-600 rounded-full"
               onPress={() => {
-              
+                removeLink(link.name);
               }}
             >
               <X className="text-red-400" />
@@ -260,7 +311,6 @@ const Card = () => {
           </TouchableOpacity>
           ))}
           </View>
-
 
           <CustomButton
             title="Update Card"
@@ -320,17 +370,16 @@ const Card = () => {
           <View>
             <FormField 
               title="Link"
-              value={getLinkValue(linkHolder)}
+              value={currentLink.url}
               placeholder={`${linkHolder} Account Link`}
-              // handleChangeText={(e) => setForm({ ...form, password: e})}
+              handleChangeText={(e) => setCurrentLink({ ...currentLink, url: e })}
               otherStyles='mt-3'
             />
 
             <CustomButton
               title='Add Link'
-              // handlePress={submit}
+              handlePress={addLink}
               containerStyles="mt-7"
-              // isLoading={isSubmitting}
             />
           </View>
         </View>
