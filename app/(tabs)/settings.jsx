@@ -2,9 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { router, Redirect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { supabase } from '../../lib/supabase';
-import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView, Alert} from 'react-native';
+import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView, Alert, Linking} from 'react-native';
 
 const Settings = () => {
+  const [user, setUser] = useState('');
+  const [userInfo, setUserInfo] = useState({
+    name: '',
+    email: '',
+    profileImg: ''
+  });
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+        if(user) {
+          setUser(user);
+          fetchUserInfoFromCard(user.id);
+        } else {
+          Alert.alert("Error Accessing User");
+        }
+      })
+
+      console.log(userInfo)
+  }, [])
+
+  const fetchUserInfoFromCard = async (userId) => {
+    let { data, error } = await supabase
+      .from('cards')
+      .select("*")
+      .eq('user_id', userId);
+
+      setUserInfo({
+        name: data[0].name || '',
+        email: data[0].email || '',
+        profileImg: data[0].profile_img_url || '',
+      });
+  };
 
   const doLogOut = async () => {
    const {error} = await supabase.auth.signOut();
@@ -28,20 +60,15 @@ const Settings = () => {
 
             <View className="rounded-lg shadow bg-[#1E1E2D]">
               <View
-                onPress={() => {
-                  // handle onPress
-                }}
                 className="flex-row items-center justify-between p-3">
                 <Image
-                  source={{
-                    uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
-                  }}
-                  className="w-14 h-14 rounded-full"
+                  source={{uri: userInfo.profileImg}}
+                  className="w-14 h-14 rounded-full border-2 border-white"
                 />
 
                 <View className="flex-grow ml-2 mr-auto ">
-                  <Text className="text-lg font-psemibold text-gray-100">John Doe</Text>
-                  <Text className="text-primary">john.doe@mail.com</Text>
+                  <Text className="text-lg font-psemibold text-gray-100">{userInfo.name}</Text>
+                  <Text className="text-primary font-psemibold ">{user.email}</Text>
                 </View>
               </View>
             </View>
@@ -51,7 +78,7 @@ const Settings = () => {
           <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">Preferences</Text>
 
           <View className="rounded-lg shadow bg-[#1E1E2D]">
-            <View className="p-3 border-b border-gray-700">
+            <View className="p-3">
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
@@ -62,7 +89,7 @@ const Settings = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="p-3">
+            {/* <View className="p-3">
               <View className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">Dark / Light Mode</Text>
                 <Switch
@@ -73,7 +100,7 @@ const Settings = () => {
                   // value={form.emailNotifications}
                 />
               </View>
-            </View>
+            </View> */}
 
           </View>
         </View>
@@ -108,6 +135,7 @@ const Settings = () => {
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
+                  
                 }}
                 className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">Rate in App Store</Text>
@@ -119,6 +147,7 @@ const Settings = () => {
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
+                  Linking.openURL('https://policies.google.com/')
                 }}
                 className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">Terms and Privacy</Text>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
-import { View, Text, SafeAreaView ,ScrollView, Image, StatusBar, StyleSheet, Alert, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, TextInput ,ScrollView, Image, StatusBar, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 
 import * as ImagePicker from 'expo-image-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -122,7 +122,7 @@ const Card = () => {
             location: data[0].location || '',
             bio: data[0].bio || '',
             email: data[0].email || '',
-            phone: data[0].phone || '',
+            phone: data[0].phone|| '',
             profileImg: data[0].profile_img_url || '',
             coverPhoto: data[0].bg_img_url || '',
             // links: data[0].selected_links || [],
