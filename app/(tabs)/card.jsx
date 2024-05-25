@@ -2,8 +2,9 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { View, Text, SafeAreaView ,ScrollView, Image, StatusBar, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 
+import * as ImagePicker from 'expo-image-picker';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { ArrowLeft, PlusSquare, X } from 'lucide-react-native'
+import { ArrowLeft, ImageDown, ImageUp, PlusSquare, X } from 'lucide-react-native'
 import { icons } from '../../constants'
 import { supabase } from '../../lib/supabase'
 
@@ -32,6 +33,9 @@ const styles = StyleSheet.create({
 });
 
 const Card = () => {
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false)
+  
   const bottomSheetRef = useRef(null);
   const [linkFormField, setLinkFormField] = useState(false);
   const [recommendedLinks, setRecommendedLinks] = useState([
@@ -221,6 +225,76 @@ const Card = () => {
       setForm({ ...form, links: updatedLinks });
     };
 
+    const getPermission = async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Permission denied!');
+      }
+    };
+
+    const openImagePicker = async (imageType) => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+        exif: false
+      });
+    
+      if (!result.canceled) {
+        const selectedImageURI = result.assets[0].uri;
+        const imageMimeType = result.assets[0].mimeType;
+        const selectedFileName = result.assets[0].fileName;
+      
+        const arraybuffer = await fetch(selectedImageURI).then((res) => res.arrayBuffer())
+        const fileExt = selectedImageURI?.split('.').pop()?.toLowerCase() ?? 'jpeg'
+        const path = `${Date.now()}.${fileExt}`
+
+    
+        try {
+          const bucketName = imageType === 'profile' ? 'profile_images' : 'cover_images';
+          const subfolder = user.id; // Subfolder named after the user ID
+    
+          // Upload the selected image to the appropriate storage bucket and subfolder
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from(bucketName)
+            .upload(`${subfolder}/${selectedFileName}`, arraybuffer, {
+              contentType: imageMimeType ?? 'image/jpeg',
+            });
+    
+          if (uploadError) {
+            throw new Error(`Error uploading image: ${uploadError.message}`);
+          }
+    
+          // Get the URL of the uploaded image
+          const imageUrl = await supabase.storage
+            .from(bucketName)
+            .getPublicUrl(`${subfolder}/${selectedFileName}`);
+    
+          if (!imageUrl) {
+            throw new Error('Image URL is null or undefined');
+          }
+    
+          // Update the user's record in the database with the new image URL
+          const fieldToUpdate = imageType === 'profile' ? 'profile_img_url' : 'bg_img_url';
+          const { data: updateData, error: updateError } = await supabase
+            .from('cards')
+            .update({ [fieldToUpdate]: imageUrl.data.publicUrl })
+            .eq('user_id', user.id);
+    
+          if (updateError) {
+            throw new Error(`Error updating user record: ${updateError.message}`);
+          }
+    
+          // Update the local state (form) with the new image URL
+          setForm({ ...form, [imageType === 'profile' ? 'profileImg' : 'coverPhoto']: imageUrl.data.publicUrl });
+        } catch (error) {
+          console.error(error.message);
+          // Handle error
+        }
+      }
+    };
+    
+
   return (
     // <SafeAreaView className="bg-[#161622] h-full">
       <ScrollView className="bg-[#161622] h-full" >
@@ -231,9 +305,33 @@ const Card = () => {
             <Image source={{uri: form.coverPhoto}}
             style={styles.backgroundImage}
             className="w-full h-full"/>
+
+            <TouchableOpacity 
+                onPress={() => {
+                  openImagePicker('cover');
+                  getPermission();
+                }}
+                className="absolute bg-white shadow-xl bottom-0 right-0 mt-1 mr-1 p-1 text-red-600 rounded-full"
+              >
+              <ImageUp className="text-black" />
+            </TouchableOpacity>
           </View>
+
           <View className="absolute bottom-0 left-0">
-            <Image source={{uri: form.profileImg}} className='w-24 h-24 ml-2 mb-2 border-4 border-white rounded-full'/>
+            <TouchableOpacity>
+              <Image source={{ uri: form.profileImg }} className='w-24 h-24 ml-2 mb-2 border-4 border-white rounded-full' />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              onPress={() => {
+                openImagePicker('profile');
+                getPermission();
+              }}
+              className="absolute bg-white shadow-xl bottom-0 right-0 mt-1 mr-1 p-1 text-red-600 rounded-full"
+            >
+              <ImageUp className="text-black" />
+            </TouchableOpacity>
+
           </View>
         </View>
         <View className="px-4">
