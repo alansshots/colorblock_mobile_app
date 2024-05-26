@@ -89,7 +89,7 @@ const Settings = () => {
               </TouchableOpacity>
             </View>
 
-            {/* <View className="p-3">
+            <View className="p-3 border-t border-gray-700">
               <View className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">Dark / Light Mode</Text>
                 <Switch
@@ -100,7 +100,7 @@ const Settings = () => {
                   // value={form.emailNotifications}
                 />
               </View>
-            </View> */}
+            </View> 
 
           </View>
         </View>
