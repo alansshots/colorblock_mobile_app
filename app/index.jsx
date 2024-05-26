@@ -56,7 +56,7 @@ const RootLayout = () => {
           </View>
 
           <Text className='text-sm font-pregular text-gray-100 text-center mt-7'>
-          Go Digital, Share Everywhere, Make Every Connection Count with Ease.
+          Go Digital, Share Everywhere, Make Every Connection Count.
           </Text>
 
           <CustomButton 

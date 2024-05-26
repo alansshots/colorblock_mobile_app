@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Colorblock",
-    "scheme": "aora",
-    "slug": "aora",
+    "scheme": "colorblock",
+    "slug": "colorblock",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,13 +20,21 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.alen.aora"
+      "package": "com.alansshots.colorblock"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "76a1fe4d-8c24-4ee5-93d4-0b73e2e66076"
+      }
+    }
   }
 }
