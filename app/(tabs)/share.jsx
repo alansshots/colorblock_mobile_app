@@ -17,15 +17,6 @@ const Share = () => {
   const [card, setCard] = useState('');
   const [copiedText, setCopiedText] = useState('');
 
-  const copyToClipboard = async () => {
-    await Clipboard.setStringAsync(`https://kartaa.netlify.app/card/${card.card_id}`);
-    Alert.alert('Link Copied to Clipboard.')
-  };
-
-  const shareOnClick = async () => {
-    await Sharing.shareAsync(`https://kartaa.netlify.app/card/${card.card_id}`);
-  };
-
   useEffect(() => {
   supabase.auth.getUser().then(({ data: { user } }) => {
       if(user) {
@@ -52,6 +43,15 @@ const Share = () => {
       }
   };
 
+  const copyToClipboard = async () => {
+    await Clipboard.setStringAsync(`https://getcolorblock.netlify.app/card/${card.card_id}`);
+    Alert.alert('Link Copied to Clipboard.')
+  };
+
+  const shareOnClick = async () => {
+    await Sharing.shareAsync(`https://getcolorblock.netlify.app/card/${card.card_id}`);
+  };
+
   return (
     <SafeAreaView className='bg-[#161622] h-full'>
       <ScrollView className='px-5' contentContainerStyle= {{ height: '100%' }}>
@@ -62,7 +62,7 @@ const Share = () => {
             <Text className='text-white font-psemibold font-semibold mt-2 text-[17px] text-center'>{card.name}</Text>
             <View className='mt-5 p-2 bg-white rounded-xl'>
             <QRCodeStyled
-              data={`https://kartaa.netlify.app/card/${card.card_id}`}
+              data={`https://getcolorblock.netlify.app/card/${card.card_id}`}
               style={{backgroundColor: 'white'}}
               padding={10}
               pieceSize={6}
