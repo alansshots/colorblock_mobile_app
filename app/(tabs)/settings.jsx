@@ -3,6 +3,8 @@ import { router, Redirect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { supabase } from '../../lib/supabase';
 import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView, Alert, Linking} from 'react-native';
+import '../../localization/i18n/i18n.config'
+import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
   const [user, setUser] = useState('');
@@ -11,6 +13,8 @@ const Settings = () => {
     email: '',
     profileImg: ''
   });
+  const {t} = useTranslation();
+
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -51,7 +55,7 @@ const Settings = () => {
     <SafeAreaView className="flex-1 bg-[#161622]">
       <View className="p-0 flex-grow flex-shrink flex-basis">
         <View className="flex-row items-center justify-center w-full px-4">
-          <Text className="text-xl text-gray-200 font-psemibold font-semibold mt-5">Settings</Text>
+          <Text className="text-xl text-gray-200 font-psemibold font-semibold mt-5">{t('Settings')}</Text>
         </View>
 
         <ScrollView className="px-4">

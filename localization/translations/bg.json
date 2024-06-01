@@ -1,0 +1,17 @@
+{
+    "language": "Bulgarian",
+    "screens": {       
+        "settings": {
+            "account": "Профил",
+            "preferences": {
+                "language": "Език"
+            },
+            "resources": {
+                "contactUs": "Контакти",
+                "reportBug": "Сигнал за Грешка",
+                "rateApp": "Оценете в App Store",
+                "TermsAndPrivacy": "Общи условия и Поверителност"
+            }
+        }
+    }
+}

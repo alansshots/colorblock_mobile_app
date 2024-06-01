@@ -6,7 +6,6 @@ import { Text, View, ScrollView, Image, Alert} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../lib/supabase'
 import { Session } from '@supabase/supabase-js'
-
 import { images } from '../constants'
 import CustomButton from '../components/CustomButton';
 
