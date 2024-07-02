@@ -6,12 +6,18 @@ import { View, Text, TouchableOpacity, Switch, Modal, FlatList ,Image, SafeAreaV
 // import '../../localization/i18n/i18n.config'
 import { useTranslation } from 'react-i18next';
 import '../translation'
-import i18n from "../translation";
+import i18n from "i18next";
 
 const languages = [
   { id: 'en', name: 'English' },
-  { id: 'es', name: 'Spanish' },
-  { id: 'bm', name: 'Bangladesh' },
+  { id: 'de', name: 'Deutsch' },
+  { id: 'bg', name: 'Български' },
+  { id: 'fr', name: 'Français' },
+  { id: 'it', name: 'Italiano' },
+  { id: 'pt', name: 'Português' },
+  { id: 'ru', name: 'Русский' },
+  { id: 'tr', name: 'Türkçe' },
+  { id: 'zh', name: '中文' },
   // Add more languages as needed
 ];
 const Settings = () => {
@@ -21,7 +27,7 @@ const Settings = () => {
     email: '',
     profileImg: ''
   });
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
 
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -75,7 +81,7 @@ const Settings = () => {
 
         <ScrollView className="px-4">
           <View className="py-4">
-            <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">Account</Text>
+            <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">{t('account')}</Text>
 
             <View className="rounded-lg shadow bg-[#1E1E2D]">
               <View
@@ -94,7 +100,7 @@ const Settings = () => {
           </View>
 
           <View className="py-4">
-          <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">Preferences</Text>
+          <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">{t('preferences')}</Text>
 
           <View className="rounded-lg shadow bg-[#1E1E2D]">
             <View className="p-3">
@@ -104,7 +110,7 @@ const Settings = () => {
                    setIsDropdownVisible(!isDropdownVisible)
                 }}
                 className="flex-row items-center justify-between">
-                <Text className="text-lg text-white">Language</Text>
+                <Text className="text-lg text-white">{t('language')}</Text>
                 <Text className="text-white">{selectedLanguage.name}</Text>
               </TouchableOpacity>
             </View>
@@ -144,7 +150,7 @@ const Settings = () => {
         </View>
 
         <View className="py-4">
-          <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">Resources</Text>
+          <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">{t('resources')}</Text>
 
           <View className="rounded-lg shadow bg-[#1E1E2D]">
             <View className="p-3 border-b border-gray-700">
@@ -154,7 +160,7 @@ const Settings = () => {
                   Linking.openURL('https://getcolorblock.netlify.app/contact-us')
                 }}
                 className="flex-row items-center justify-between">
-                <Text className="text-lg text-white">Contact us</Text>
+                <Text className="text-lg text-white">{t('contactUs')}</Text>
     
               </TouchableOpacity>
             </View>
@@ -177,7 +183,7 @@ const Settings = () => {
                   
                 }}
                 className="flex-row items-center justify-between">
-                <Text className="text-lg text-white">Rate us on the App Store</Text>
+                <Text className="text-lg text-white">{t('rateUsOntheAppStore')}</Text>
                 
               </TouchableOpacity>
             </View>
@@ -189,7 +195,7 @@ const Settings = () => {
                   Linking.openURL('https://policies.google.com/')
                 }}
                 className="flex-row items-center justify-between">
-                <Text className="text-lg text-white">Terms and Privacy</Text>
+                <Text className="text-lg text-white">{t('termsAndPricacy')}</Text>
                 
               </TouchableOpacity>
             </View>
@@ -202,7 +208,7 @@ const Settings = () => {
               <TouchableOpacity
                 onPress={() => {doLogOut()}}
                 className="flex-row items-center justify-center">
-                <Text className="text-lg font-semibold text-white">Log Out</Text>
+                <Text className="text-lg font-semibold text-white">{t('logout')}</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -8,6 +8,10 @@ import { ArrowLeft, ImageDown, ImageUp, PlusSquare, X } from 'lucide-react-nativ
 import { icons } from '../../constants'
 import { supabase } from '../../lib/supabase'
 
+import { useTranslation } from 'react-i18next';
+import '../translation'
+import i18n from "i18next";
+
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
 import LinksPicker from '../../components/LinksPicker'
@@ -35,6 +39,8 @@ const styles = StyleSheet.create({
 const Card = () => {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false)
+
+  const {t, i18n} = useTranslation();
   
   const bottomSheetRef = useRef(null);
   const [linkFormField, setLinkFormField] = useState(false);
@@ -335,12 +341,10 @@ const Card = () => {
           </View>
         </View>
         <View className="px-4">
-          
-          {/* <Text className="text-white">{JSON.stringify(form.phone)}</Text> */}
 
           <View className="mb-2">
             <FormField 
-            title="Name"
+            title={t('name')}
             value={form.name}
             handleChangeText={(e) => setForm({ ...form, name: e})}
             otherStyles='mt-7'
@@ -349,7 +353,7 @@ const Card = () => {
           </View>
           <View className="mb-2">
             <FormField 
-            title="Location"
+            title={t('location')}
             value={form.location}
             handleChangeText={(e) => setForm({ ...form, location: e})}
             otherStyles='mt-7'
@@ -358,7 +362,7 @@ const Card = () => {
           </View>
           <View className="mb-2">
             <FormField 
-            title="Bio"
+            title={t('bio')}
             value={form.bio}
             handleChangeText={(e) => setForm({ ...form, bio: e})}
             otherStyles='mt-7 '
@@ -367,7 +371,7 @@ const Card = () => {
           </View>
           <View className="mb-2">
             <FormField 
-            title="Phone"
+            title={t('phone')}
             value={form.phone}
             handleChangeText={(e) => setForm({ ...form, phone: e})}
             otherStyles='mt-7'
@@ -375,7 +379,7 @@ const Card = () => {
             />
           </View>
 
-          <Text className="text-gray-100 mt-7 text-[15px] font-psemibold mb-2">Links</Text>
+          <Text className="text-gray-100 mt-7 text-[15px] font-psemibold mb-2">{t('links')}</Text>
 
           <View className="w-full flex flex-row flex-wrap justify-start items-center">
             <TouchableOpacity 
@@ -387,7 +391,7 @@ const Card = () => {
             <PlusSquare 
               className="text-primary p-6 mb-1"
             />
-            <Text className='text-white font-pregular'>Add Link</Text>
+            <Text className='text-white font-pregular'>{t('addLink')}</Text>
           </TouchableOpacity>
 
           {form.links.map((link, index) => (
@@ -411,7 +415,7 @@ const Card = () => {
           </View>
 
           <CustomButton
-            title="Update Card"
+            title={t('updateCard')}
             handlePress={handleCardSubmit}
             containerStyles="mt-7 mb-5"
             isLoading={isLoading}
@@ -467,7 +471,7 @@ const Card = () => {
           
           <View>
             <FormField 
-              title="Link"
+              title={t('link')}
               value={currentLink.url}
               placeholder={`${linkHolder} Account Link`}
               handleChangeText={(e) => setCurrentLink({ ...currentLink, url: e })}
@@ -475,7 +479,7 @@ const Card = () => {
             />
 
             <CustomButton
-              title='Add Link'
+              title={t('addLink')}
               handlePress={addLink}
               containerStyles="mt-7"
             />
@@ -484,7 +488,7 @@ const Card = () => {
         )}
         {linkFormField == false && (
         <View>
-          <Text className="text-gray-100 text-md font-psemibold">Recommended</Text>
+          <Text className="text-gray-100 text-md font-psemibold">{t('recomended')}</Text>
           <View className="w-full flex flex-row flex-wrap justify-start items-center">
           {recommendedLinks.map((link, index) => (
             <TouchableOpacity 
@@ -501,7 +505,7 @@ const Card = () => {
 
           </View>
 
-          <Text className="text-gray-100 text-md font-psemibold mt-7">Social</Text>
+          <Text className="text-gray-100 text-md font-psemibold mt-7">{t('social')}</Text>
           <View className="w-full flex flex-row flex-wrap justify-start items-center">
             {socialLinks.map((link, index) => (
               <TouchableOpacity 
@@ -517,7 +521,7 @@ const Card = () => {
             ))}
           </View>
 
-          <Text className="text-gray-100 text-md font-psemibold mt-7">Business</Text>
+          <Text className="text-gray-100 text-md font-psemibold mt-7">{t('business')}</Text>
           <View className="w-full flex flex-row flex-wrap justify-start items-center">
             {businessLinks.map((link, index) => (
               <TouchableOpacity 

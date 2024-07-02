@@ -6,6 +6,10 @@ import * as Sharing from 'expo-sharing';
 import QRCodeStyled from 'react-native-qrcode-styled';
 import { Link, Download, ShareIcon } from 'lucide-react-native';
 
+import { useTranslation } from 'react-i18next';
+import '../translation'
+import i18n from "i18next";
+
 import { images } from '../../constants'
 import { supabase } from '../../lib/supabase'
 
@@ -16,6 +20,7 @@ const Share = () => {
   const [user, setUser] = useState('');
   const [card, setCard] = useState('');
   const [copiedText, setCopiedText] = useState('');
+  const {t, i18n} = useTranslation();
 
   useEffect(() => {
   supabase.auth.getUser().then(({ data: { user } }) => {
@@ -85,7 +90,7 @@ const Share = () => {
 
         <View>
           <Text className='text-sm font-pregular text-gray-100 text-center mt-4'>
-            Your QR Code is private. Use it to share your personal digital card.
+            {t('qrCodeText')}
           </Text>
         </View>
         
@@ -100,7 +105,7 @@ const Share = () => {
             <Link 
               className='text-primary'
             />
-            <Text className='text-white font-pregular'>Copy Link</Text>
+            <Text className='text-white font-pregular'>{t('copyLink')}</Text>
           </TouchableOpacity>
 
 
@@ -113,7 +118,7 @@ const Share = () => {
             <ShareIcon 
               className='text-primary'
             />
-            <Text className='text-white font-pregular'>Share</Text>
+            <Text className='text-white font-pregular'>{t('share')}</Text>
           </TouchableOpacity>
 
           </View>

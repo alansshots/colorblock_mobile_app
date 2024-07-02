@@ -3,6 +3,10 @@ import { View, Text, Image } from 'react-native'
 import { Tabs, Redirect } from 'expo-router'
 import 'react-native-reanimated';
 
+import { useTranslation } from 'react-i18next';
+import '../translation'
+import i18n from "i18next";
+
 import {icons} from '../../constants'
 import {images} from '../../constants';
 
@@ -23,6 +27,8 @@ const TabIcon = ({icon, color, name, focused}) => {
 }
 
 const TabsLayout = () => {
+  const {t, i18n } = useTranslation()
+
   return (
     <>
       <Tabs
