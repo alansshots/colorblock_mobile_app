@@ -3,7 +3,7 @@ import { router, Redirect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { supabase } from '../../lib/supabase';
 import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView, Alert, Linking} from 'react-native';
-import '../../localization/i18n/i18n.config'
+// import '../../localization/i18n/i18n.config'
 import { useTranslation } from 'react-i18next';
 
 const Settings = () => {
@@ -92,7 +92,7 @@ const Settings = () => {
                 <Text className="text-white">English</Text>
               </TouchableOpacity>
             </View>
-
+{/* 
             <View className="p-3 border-t border-gray-700">
               <View className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">Dark / Light Mode</Text>
@@ -104,7 +104,7 @@ const Settings = () => {
                   // value={form.emailNotifications}
                 />
               </View>
-            </View> 
+            </View>  */}
 
           </View>
         </View>
@@ -117,14 +117,15 @@ const Settings = () => {
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
+                  Linking.openURL('https://getcolorblock.netlify.app/contact-us')
                 }}
                 className="flex-row items-center justify-between">
-                <Text className="text-lg text-white">Contact Us</Text>
+                <Text className="text-lg text-white">Contact us</Text>
     
               </TouchableOpacity>
             </View>
 
-            <View className="p-3 border-b border-gray-700">
+            {/* <View className="p-3 border-b border-gray-700">
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
@@ -133,7 +134,7 @@ const Settings = () => {
                 <Text className="text-lg text-white">Report Bug</Text>
               
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             <View className="p-3 border-b border-gray-700">
               <TouchableOpacity
@@ -142,7 +143,7 @@ const Settings = () => {
                   
                 }}
                 className="flex-row items-center justify-between">
-                <Text className="text-lg text-white">Rate in App Store</Text>
+                <Text className="text-lg text-white">Rate us on the App Store</Text>
                 
               </TouchableOpacity>
             </View>
