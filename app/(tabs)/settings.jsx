@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { router, Redirect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { supabase } from '../../lib/supabase';
-import { View, Text, TouchableOpacity, Switch, Image, SafeAreaView, ScrollView, Alert, Linking} from 'react-native';
+import { View, Text, TouchableOpacity, Switch, Modal, FlatList ,Image, SafeAreaView, ScrollView, Alert, Linking} from 'react-native';
 // import '../../localization/i18n/i18n.config'
 import { useTranslation } from 'react-i18next';
+import '../translation'
+import i18n from "../translation";
 
+const languages = [
+  { id: 'en', name: 'English' },
+  { id: 'es', name: 'Spanish' },
+  { id: 'bm', name: 'Bangladesh' },
+  // Add more languages as needed
+];
 const Settings = () => {
   const [user, setUser] = useState('');
   const [userInfo, setUserInfo] = useState({
@@ -15,6 +23,14 @@ const Settings = () => {
   });
   const {t} = useTranslation();
 
+  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const handleLanguageSelect = (language) => {
+    setSelectedLanguage(language);
+    setIsDropdownVisible(false);
+    i18n.changeLanguage(language.id);
+  };
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -50,12 +66,11 @@ const Settings = () => {
     }
   }
 
-
   return (
     <SafeAreaView className="flex-1 bg-[#161622]">
       <View className="p-0 flex-grow flex-shrink flex-basis">
         <View className="flex-row items-center justify-center w-full px-4">
-          <Text className="text-xl text-gray-200 font-psemibold font-semibold mt-5">{t('Settings')}</Text>
+          <Text className="text-xl text-gray-200 font-psemibold font-semibold mt-5">{t('welcome')}</Text>
         </View>
 
         <ScrollView className="px-4">
@@ -86,13 +101,32 @@ const Settings = () => {
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
+                   setIsDropdownVisible(!isDropdownVisible)
                 }}
                 className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">Language</Text>
-                <Text className="text-white">English</Text>
+                <Text className="text-white">{selectedLanguage.name}</Text>
               </TouchableOpacity>
             </View>
-{/* 
+
+            {isDropdownVisible && (
+              <View className="mt-1 rounded-lg shadow bg-[#1E1E2D]">
+                <FlatList
+                  data={languages}
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      onPress={() => handleLanguageSelect(item)}
+                      className="p-3 border-b border-gray-700"
+                    >
+                      <Text className="text-white">{item.name}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View> 
+            )}
+          
+          {/* 
             <View className="p-3 border-t border-gray-700">
               <View className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">Dark / Light Mode</Text>
