@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { useEffect } from 'react';
 import React from 'react'
+
+import LanguageProvider from './translation/LanguageProvider'
 import { Slot, Stack, SplashScreen } from 'expo-router'
 import { useFonts } from "expo-font";
 import 'react-native-reanimated';
@@ -30,12 +32,14 @@ const RootLayout = () => {
 
   return (
     <>
-        <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }}/>
-            <Stack.Screen name="(auth)" options={{ headerShown: false }}/>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
-        </Stack>
-        <StatusBar style='light'/>
+        <LanguageProvider>
+            <Stack>
+                <Stack.Screen name="index" options={{ headerShown: false }}/>
+                <Stack.Screen name="(auth)" options={{ headerShown: false }}/>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }}/>
+            </Stack>
+            <StatusBar style='light'/>
+        </LanguageProvider>
     </>
   )
 }

@@ -16,6 +16,8 @@ import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
 import LinksPicker from '../../components/LinksPicker'
 
+bgPlaceHolderImg = '../../assets/images/thumbnail.png'
+
 const styles = StyleSheet.create({
   background: {
     position: 'absolute',
@@ -308,8 +310,8 @@ const Card = () => {
       <View className="w-full">
         <View className="relative">
           <View className="h-56 overflow-hidden">
-            <Image source={{uri: form.coverPhoto}}
-            style={styles.backgroundImage}
+            <Image source={{uri: form.coverPhoto || bgPlaceHolderImg }}
+            style={styles.backgroundImage }
             className="w-full h-full"/>
 
             <TouchableOpacity 
@@ -325,7 +327,7 @@ const Card = () => {
 
           <View className="absolute bottom-0 left-0">
             <TouchableOpacity>
-              <Image source={{ uri: form.profileImg }} className='w-24 h-24 ml-2 mb-2 border-4 border-white rounded-full' />
+              <Image source={{ uri: form.profileImg || 'https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_1280.png' }} className='w-24 h-24 ml-2 mb-2 border-4 border-white rounded-full' />
             </TouchableOpacity>
 
             <TouchableOpacity 

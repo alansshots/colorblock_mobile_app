@@ -53,7 +53,7 @@ const TabsLayout = () => {
               <TabIcon
                 icon={icons.qr}
                 color={color}
-                name="Share"
+                name={t('share')}
                 focused={focused}
               />
             )
@@ -67,7 +67,7 @@ const TabsLayout = () => {
               <TabIcon
                 icon={images.logoSmall}
                 color={color}
-                name="My Card"
+                name={t('myCard')}
                 focused={focused}
               />
             )
@@ -81,7 +81,7 @@ const TabsLayout = () => {
               <TabIcon
                 icon={icons.cog}
                 color={color}
-                name="Settings"
+                name={t('settings')}
                 focused={focused}
               />
             )

@@ -6,17 +6,17 @@ export default {
     settings: "Einstellungen",
     
     // Share Page
-    qrCodeText: " Ihr QR-Code ist privat. Verwenden Sie ihn, um Ihre persönliche digitale Karte zu teilen.",
+    qrCodeText: "Ihr QR-Code ist privat. Verwenden Sie ihn, um Ihre persönliche digitale Karte zu teilen.",
     copyLink: "Link kopieren",
 
     // Card Page
     name: "Name",
     location: "Standort",
-    bio: "Bio",
+    bio: "Beschreibung",
     phone: "Telefon",
     links: "Links",
     link: "Link",
-    addLink: "Link hinzufügen",
+    addLink: "Neuer Link",
     recomended: "Empfohlen",
     social: "Sozial",
     business: "Business",

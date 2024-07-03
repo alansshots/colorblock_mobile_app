@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { router, Redirect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { supabase } from '../../lib/supabase';
-import { View, Text, TouchableOpacity, Switch, Modal, FlatList ,Image, SafeAreaView, ScrollView, Alert, Linking} from 'react-native';
-// import '../../localization/i18n/i18n.config'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, TouchableOpacity, FlatList, Image, SafeAreaView, ScrollView, Alert, Linking} from 'react-native';
 import { useTranslation } from 'react-i18next';
 import '../translation'
 import i18n from "i18next";
@@ -12,13 +12,6 @@ const languages = [
   { id: 'en', name: 'English' },
   { id: 'de', name: 'Deutsch' },
   { id: 'bg', name: 'Български' },
-  { id: 'fr', name: 'Français' },
-  { id: 'it', name: 'Italiano' },
-  { id: 'pt', name: 'Português' },
-  { id: 'ru', name: 'Русский' },
-  { id: 'tr', name: 'Türkçe' },
-  { id: 'zh', name: '中文' },
-  // Add more languages as needed
 ];
 const Settings = () => {
   const [user, setUser] = useState('');
@@ -27,15 +20,20 @@ const Settings = () => {
     email: '',
     profileImg: ''
   });
-  const {t, i18n} = useTranslation();
 
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+  const {t, i18n} = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(languages.find(lang => lang.id === i18n.language) || languages[0]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-  const handleLanguageSelect = (language) => {
+  const handleLanguageSelect = async (language) => {
     setSelectedLanguage(language);
     setIsDropdownVisible(false);
     i18n.changeLanguage(language.id);
+    try {
+      await AsyncStorage.setItem('selectedLanguage', language.id);
+    } catch (error) {
+      console.error("Failed to save language preference", error);
+    }
   };
 
   useEffect(() => {
@@ -76,7 +74,7 @@ const Settings = () => {
     <SafeAreaView className="flex-1 bg-[#161622]">
       <View className="p-0 flex-grow flex-shrink flex-basis">
         <View className="flex-row items-center justify-center w-full px-4">
-          <Text className="text-xl text-gray-200 font-psemibold font-semibold mt-5">{t('welcome')}</Text>
+          <Text className="text-xl text-gray-200 font-psemibold font-semibold mt-5">{t('settings')}</Text>
         </View>
 
         <ScrollView className="px-4">
@@ -116,7 +114,7 @@ const Settings = () => {
             </View>
 
             {isDropdownVisible && (
-              <View className="mt-1 rounded-lg shadow bg-[#1E1E2D]">
+              <View className="mt-1 rounded-lg shadow bg-[#1E1E2D] transition-200 ease-in">
                 <FlatList
                   data={languages}
                   keyExtractor={(item) => item.id}
