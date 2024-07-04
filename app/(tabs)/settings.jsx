@@ -151,6 +151,19 @@ const Settings = () => {
           <Text className="m-2 text-md font-psemibold font-semibold text-gray-100">{t('resources')}</Text>
 
           <View className="rounded-lg shadow bg-[#1E1E2D]">
+
+          <View className="p-3 border-b border-gray-700">
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+                Linking.openURL('https://ko-fi.com/alansshots')
+              }}
+              className="flex-row items-center justify-between">
+              <Text className="text-lg text-white">Buy me a ☕️</Text>
+              
+            </TouchableOpacity>
+           </View>
+
             <View className="p-3 border-b border-gray-700">
               <TouchableOpacity
                 onPress={() => {

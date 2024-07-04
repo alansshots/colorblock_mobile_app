@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 import { View, Text, SafeAreaView, TextInput ,ScrollView, Image, StatusBar, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
+
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { ArrowLeft, ImageDown, ImageUp, PlusSquare, X } from 'lucide-react-native'
 import { icons } from '../../constants'
@@ -130,7 +132,7 @@ const Card = () => {
             location: data[0].location || '',
             bio: data[0].bio || '',
             email: data[0].email || '',
-            phone: data[0].phone|| '',
+            phone: data[0].phone || '',
             profileImg: data[0].profile_img_url || '',
             coverPhoto: data[0].bg_img_url || '',
             // links: data[0].selected_links || [],
@@ -252,17 +254,47 @@ const Card = () => {
         const selectedImageURI = result.assets[0].uri;
         const imageMimeType = result.assets[0].mimeType;
         const selectedFileName = result.assets[0].fileName;
-      
-        const arraybuffer = await fetch(selectedImageURI).then((res) => res.arrayBuffer())
-        const fileExt = selectedImageURI?.split('.').pop()?.toLowerCase() ?? 'jpeg'
-        const path = `${Date.now()}.${fileExt}`
-
+    
+        // Optimize the image
+        const manipResult = await ImageManipulator.manipulateAsync(
+          selectedImageURI,
+          [{ resize: { width: 800 } }], // Resize the image to a width of 800px (adjust as needed)
+          { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG } // Compress the image and save it as JPEG
+        );
+        const optimizedImageURI = manipResult.uri;
+        const arraybuffer = await fetch(optimizedImageURI).then((res) => res.arrayBuffer());
+        const fileExt = optimizedImageURI.split('.').pop().toLowerCase() || 'jpeg';
+        const path = `${Date.now()}.${fileExt}`;
     
         try {
           const bucketName = imageType === 'profile' ? 'profile_images' : 'cover_images';
           const subfolder = user.id; // Subfolder named after the user ID
     
-          // Upload the selected image to the appropriate storage bucket and subfolder
+          // Fetch previous image URL
+          const fieldToUpdate = imageType === 'profile' ? 'profile_img_url' : 'bg_img_url';
+          const { data: userCardData, error: userCardError } = await supabase
+            .from('cards')
+            .select(fieldToUpdate)
+            .eq('user_id', user.id)
+            .single();
+    
+          if (userCardError) {
+            throw new Error(`Error fetching user record: ${userCardError.message}`);
+          }
+          
+          const previousImageUrl = userCardData[fieldToUpdate]
+          
+          if (previousImageUrl) {
+            // Delete the previous image
+            const { error: deleteError } = await supabase.storage
+              .from(bucketName)
+              .remove(previousImageUrl);
+            if (deleteError) {
+              throw new Error(`Error deleting previous image: ${deleteError.message}`);
+            }
+          }
+
+          // Upload the new image
           const { data: uploadData, error: uploadError } = await supabase.storage
             .from(bucketName)
             .upload(`${subfolder}/${selectedFileName}`, arraybuffer, {
@@ -274,19 +306,18 @@ const Card = () => {
           }
     
           // Get the URL of the uploaded image
-          const imageUrl = await supabase.storage
+          const { data: publicUrlData } = await supabase.storage
             .from(bucketName)
             .getPublicUrl(`${subfolder}/${selectedFileName}`);
     
-          if (!imageUrl) {
+          if (!publicUrlData) {
             throw new Error('Image URL is null or undefined');
           }
     
           // Update the user's record in the database with the new image URL
-          const fieldToUpdate = imageType === 'profile' ? 'profile_img_url' : 'bg_img_url';
           const { data: updateData, error: updateError } = await supabase
             .from('cards')
-            .update({ [fieldToUpdate]: imageUrl.data.publicUrl })
+            .update({ [fieldToUpdate]: publicUrlData.publicUrl })
             .eq('user_id', user.id);
     
           if (updateError) {
@@ -294,7 +325,7 @@ const Card = () => {
           }
     
           // Update the local state (form) with the new image URL
-          setForm({ ...form, [imageType === 'profile' ? 'profileImg' : 'coverPhoto']: imageUrl.data.publicUrl });
+          setForm({ ...form, [imageType === 'profile' ? 'profileImg' : 'coverPhoto']: publicUrlData.publicUrl });
         } catch (error) {
           console.error(error.message);
           // Handle error
@@ -372,14 +403,14 @@ const Card = () => {
             />
           </View>
           <View className="mb-2">
-            <FormField 
+          <FormField
             title={t('phone')}
             value={form.phone}
-            handleChangeText={(e) => setForm({ ...form, phone: e})}
+            handleChangeText={(e) => setForm({ ...form, phone: e })}
             otherStyles='mt-7'
             keyboardType="numeric"
-            />
-          </View>
+          />
+        </View>
 
           <Text className="text-gray-100 mt-7 text-[15px] font-psemibold mb-2">{t('links')}</Text>
 
