@@ -159,7 +159,7 @@ const Settings = () => {
                 Linking.openURL('https://ko-fi.com/alansshots')
               }}
               className="flex-row items-center justify-between">
-              <Text className="text-lg text-white">Buy me a ☕️</Text>
+              <Text className="text-lg text-white">{t('byMeCoffee')}</Text>
               
             </TouchableOpacity>
            </View>

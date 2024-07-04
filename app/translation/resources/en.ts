@@ -29,6 +29,7 @@ export default {
     language: "Language",
     preferences: "Preferences",
     resources: "Resources",
+    byMeCoffee: "Buy me a ☕️",
     contactUs: "Contact us",
     rateUsOntheAppStore: "Rate us on the App Store",
     termsAndPricacy: "Terms and Privacy",

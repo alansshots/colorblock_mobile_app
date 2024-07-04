@@ -28,6 +28,7 @@ export default {
     language: "Sprache",
     preferences: "Präferenzen",
     resources: "Ressourcen",
+    byMeCoffee: "Gönnen Sie mir ☕️",
     contactUs: "Kontaktieren Sie uns",
     rateUsOntheAppStore: "Bewerten Sie uns im App Store",
     termsAndPricacy: "Nutzungsbedingungen und Datenschutz",
