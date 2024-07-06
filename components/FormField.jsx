@@ -8,16 +8,16 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
   const [showPassword, setShowPassword] = useState(false);
 
   const renderInputField = () => {
-    if (title === 'Phone') {
-      return (
-        <PhoneInput
-          value={value}
-          onChangePhoneNumber={handleChangeText}
-          textStyle={{ color: 'white', fontSize: 16 }}
-          style={{ flex: 1 }}
-        />
-      );
-    }
+    // if (title === 'Phone') {
+    //   return (
+    //     <PhoneInput
+    //       value={value}
+    //       onChangePhoneNumber={handleChangeText}
+    //       textStyle={{ color: 'white', fontSize: 16 }}
+    //       style={{ flex: 1 }}
+    //     />
+    //   );
+    // }
 
     return (
       <TextInput
