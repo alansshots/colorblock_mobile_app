@@ -2,9 +2,15 @@ import React, { useState, useEffect ,useRef} from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import PhoneInput from 'react-native-phone-input';
 
+import { useTranslation } from 'react-i18next';
+import '../app/translation'
+import i18n from "i18next";
+
 import { icons } from "../constants";
 
 const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
+  const {t, i18n} = useTranslation();
+  
   const phoneInputRef = useRef(null);
 
   useEffect(() => {
@@ -16,7 +22,7 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
   const [showPassword, setShowPassword] = useState(false);
 
   const renderInputField = () => {
-    if (title === 'Phone') {
+    if (title === t('phone') ) {
       return (
         <>
         <PhoneInput

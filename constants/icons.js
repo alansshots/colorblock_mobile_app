@@ -34,6 +34,7 @@ import VK from '../assets/icons/VK.png'
 import WeChat from '../assets/icons/WeChat.png'
 import WhatsApp from '../assets/icons/Whatsapp.png'
 import YouTube from '../assets/icons/YouTube.png'
+// import Custom from '../assets/icons/Custom.png'
 
 
 export default {
@@ -72,5 +73,6 @@ export default {
   WeChat,
   WhatsApp,
   YouTube,
-  GitHub
+  GitHub,
+  // Custom
 };

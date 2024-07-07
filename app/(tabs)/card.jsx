@@ -54,9 +54,9 @@ const Card = () => {
     'WhatsApp',
     'Snapchat',
     'TikTok',
-    'Reddit',
+    'Discord',
     'Telegram',
-    'GitHub',
+    'Pinterest',
     'LinkedIn'
   ]);
   const [socialLinks, setSocialLinks] = useState([
