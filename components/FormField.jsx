@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect ,useRef} from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import PhoneInput from 'react-native-phone-input';
 
 import { icons } from "../constants";
 
 const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, ...props }) => {
+  const phoneInputRef = useRef(null);
+
+  useEffect(() => {
+    if (phoneInputRef.current && value) {
+      phoneInputRef.current.setValue(value);
+    }
+  }, [value]);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const renderInputField = () => {
-    // if (title === 'Phone') {
-    //   return (
-    //     <PhoneInput
-    //       value={value}
-    //       onChangePhoneNumber={handleChangeText}
-    //       textStyle={{ color: 'white', fontSize: 16 }}
-    //       style={{ flex: 1 }}
-    //     />
-    //   );
-    // }
+    if (title === 'Phone') {
+      return (
+        <>
+        <PhoneInput
+          autoFormat
+          ref={(ref) => {
+          phoneInputRef.current = ref;
+          if (typeof ref === 'function') ref(ref);
+          }}
+          onChangePhoneNumber={handleChangeText}
+          textStyle={{ color: 'white', fontSize: 16 }}
+          onChange={(value) => console.log('onChange', value)}
+          style={{ flex: 1 }}
+        />
+        </>
+      );
+    }
 
     return (
       <TextInput

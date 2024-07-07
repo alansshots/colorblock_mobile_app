@@ -408,15 +408,8 @@ const Card = () => {
             value={form.phone}
             handleChangeText={(e) => setForm({ ...form, phone: e })}
             otherStyles='mt-7'
-            keyboardType="tel"
-          />
-          {/* <FormField
-            title={t('phone')}
-            value={form.phone}
-            handleChangeText={(e) => setForm({ ...form, phone: e })}
-            otherStyles='mt-7'
             keyboardType="numeric"
-          /> */}
+          />
         </View>
 
           <Text className="text-gray-100 mt-7 text-[15px] font-psemibold mb-2">{t('links')}</Text>
