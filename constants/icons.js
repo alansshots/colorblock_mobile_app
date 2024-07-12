@@ -34,7 +34,9 @@ import VK from '../assets/icons/VK.png'
 import WeChat from '../assets/icons/WeChat.png'
 import WhatsApp from '../assets/icons/Whatsapp.png'
 import YouTube from '../assets/icons/YouTube.png'
-// import Custom from '../assets/icons/Custom.png'
+import Website from '../assets/icons/Website.png'
+import X from '../assets/icons/X.png'
+import Email from '../assets/icons/Email.png'
 
 
 export default {
@@ -74,5 +76,7 @@ export default {
   WhatsApp,
   YouTube,
   GitHub,
-  // Custom
+  Email,
+  Website,
+  X
 };

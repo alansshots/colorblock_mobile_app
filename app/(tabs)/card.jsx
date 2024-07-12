@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { View, Text, SafeAreaView, TextInput ,ScrollView, Image, StatusBar, StyleSheet, Alert, TouchableOpacity } from 'react-native'
-
+// https://expo.dev/artifacts/eas/pDDhr6bFi3amyeLqogucmV.aab
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
 
@@ -52,31 +52,34 @@ const Card = () => {
     'Facebook',
     'Instagram',
     'WhatsApp',
-    'Snapchat',
+    'X',
     'TikTok',
-    'Discord',
+    'Website',
     'Telegram',
     'Pinterest',
     'LinkedIn'
+    // 'Email'
+
   ]);
   const [socialLinks, setSocialLinks] = useState([
-    'Behance',
-    'DeviantArt',
-    'Discord',
-    'Dribbble',
-    'Facebook',
-    'Instagram',
     'Line',
     'LinkedIn',
     'Pinterest',
     'Reddit',
     'Signal',
     'Snapchat',
+    'Facebook',
+    'Instagram',
     'Telegram',
     'TikTok',
     'Tumblr',
     'VK',
     'WeChat',
+    'X',
+    'Behance',
+    'DeviantArt',
+    'Discord',
+    'Dribbble',
     'WhatsApp',
     'YouTube',
     'GitHub'
@@ -90,6 +93,8 @@ const Card = () => {
     'GitHub',
     'Telegram',
     'WeChat',
+    'X',
+    'Website',
   ]);
   const [linkHolder, setLinkHolder] = useState('');
   const [currentLink, setCurrentLink] = useState({ name: '', url: '' });
