@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert, Linking } from 'react-native'
 import { StatusBar } from 'expo-status-bar';
 import * as Clipboard from 'expo-clipboard';
@@ -6,6 +6,7 @@ import * as Sharing from 'expo-sharing';
 import QRCodeStyled from 'react-native-qrcode-styled';
 import { Link, Download, ShareIcon } from 'lucide-react-native';
 import { Camera, CameraView } from 'expo-camera';
+import { useFocusEffect } from '@react-navigation/native'; 
 
 import { useTranslation } from 'react-i18next';
 import '../translation'
@@ -27,39 +28,75 @@ const Share = () => {
   const [scanned, setScanned] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
 
-  useEffect(() => {
-  supabase.auth.getUser().then(({ data: { user } }) => {
-      if(user) {
-        // setUser(JSON.stringify(user, null, 2));
-        setUser(user)
-        fetchCard(user.id);
-      } else {
-        Alert.alert("Error Accessing User");
-      }
-    })
+  // useEffect(() => {
+  // supabase.auth.getUser().then(({ data: { user } }) => {
+  //     if(user) {
+  //       // setUser(JSON.stringify(user, null, 2));
+  //       setUser(user)
+  //       fetchCard(user.id);
+  //     } else {
+  //       Alert.alert("Error Accessing User");
+  //     }
+  //   })
     
-    const getCameraPermissions = async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
+  //   const getCameraPermissions = async () => {
+  //     const { status } = await Camera.requestCameraPermissionsAsync();
+  //     setHasPermission(status === "granted");
+  //   };
 
-    getCameraPermissions();
+  //   getCameraPermissions();
 
-    const fetchCard = async (userId) => {
+  //   const fetchCard = async (userId) => {
+  //   let { data, error } = await supabase
+  //     .from('cards')
+  //     .select("*")
+  //     .eq('user_id', userId);
+
+  //     if (data && data.length > 0) {
+  //       setCard(data[0]);
+  //       // setCard(JSON.stringify(data[0], null, 2));
+  //     } else {
+  //       console.log('Could not fetch the offers')
+  //     }
+
+  // };
+  // }, []);
+
+  const fetchCard = async (userId) => {
     let { data, error } = await supabase
       .from('cards')
-      .select("*")
+      .select('*')
       .eq('user_id', userId);
 
-      if (data && data.length > 0) {
-        setCard(data[0]);
-        // setCard(JSON.stringify(data[0], null, 2));
-      } else {
-        console.log('Could not fetch the offers')
-      }
-
+    if (data && data.length > 0) {
+      setCard(data[0]);
+    } else {
+      console.log('Could not fetch the offers');
+    }
   };
-  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      const getUserData = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          setUser(user);
+          fetchCard(user.id);
+        } else {
+          Alert.alert('Error Accessing User');
+        }
+      };
+
+      getUserData();
+
+      const getCameraPermissions = async () => {
+        const { status } = await Camera.requestCameraPermissionsAsync();
+        setHasPermission(status === 'granted');
+      };
+
+      getCameraPermissions();
+    }, [])
+  );
 
   
   const handleBarCodeScanned = ({ type, data }) => {

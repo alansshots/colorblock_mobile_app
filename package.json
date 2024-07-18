@@ -12,10 +12,13 @@
     "@gorhom/bottom-sheet": "^4.6.3",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-picker/picker": "^2.7.5",
+    "@react-navigation/native": "^6.1.18",
     "@rneui/themed": "^4.0.0-rc.8",
     "@supabase/supabase-js": "^2.43.2",
     "appwrite": "^14.0.1",
     "expo": "~51.0.2",
+    "expo-barcode-scanner": "~13.0.1",
+    "expo-camera": "~15.0.13",
     "expo-clipboard": "~6.0.3",
     "expo-constants": "~16.0.1",
     "expo-dev-client": "~4.0.19",
@@ -45,9 +48,7 @@
     "react-native-screens": "^3.29.0",
     "react-native-svg": "^15.3.0",
     "react-native-url-polyfill": "^2.0.0",
-    "typescript": "~5.3.3",
-    "expo-barcode-scanner": "~13.0.1",
-    "expo-camera": "~15.0.13"
+    "typescript": "~5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
