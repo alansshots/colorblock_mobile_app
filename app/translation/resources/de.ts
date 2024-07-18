@@ -4,6 +4,9 @@ export default {
     share: "Teilen",
     myCard: "Meine Karte",
     settings: "Einstellungen",
+    scanQrCode: "QR-Code scannen",
+    close: "Schließen",
+    scanAgain: "Neu scannen",
     
     // Share Page
     qrCodeText: "Ihr QR-Code ist privat. Verwenden Sie ihn, um Ihre persönliche digitale Karte zu teilen.",

@@ -28,6 +28,7 @@ const SighUp = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
+    passwordRepeate: "",
   });
 
   async function signUpWithEmail(email, password) {
@@ -49,8 +50,11 @@ const SighUp = () => {
   const submit = async () => {
     if (form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
+    } else if (form.password !== form.passwordRepeate) {
+      Alert.alert("Error", "Passwords do not match" )
+    } else {
+      signUpWithEmail(form.email, form.password);
     }
-    signUpWithEmail(form.email, form.password);
   };
 
   return (
@@ -79,6 +83,13 @@ const SighUp = () => {
             title="Password"
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
+            otherStyles="mt-7"
+          />
+
+          <FormField
+            title="Repeat Password"
+            value={form.passwordRepeate}
+            handleChangeText={(e) => setForm({ ...form, passwordRepeate: e })}
             otherStyles="mt-7"
           />
 

@@ -114,7 +114,7 @@ const Share = () => {
 
         <View className='relative bg-[#232533] w-full mt-14 flex flex-col justify-start items-center rounded-xl'>
           <View className="absolut bottom-10 flex justify-center items-center">
-            <Image source={{uri : card.profile_img_url}} className='w-20 h-20 border-4 border-white rounded-full'/>
+            <Image source={{uri : card.profile_img_url || 'https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_1280.png'}} className='w-20 h-20 border-4 border-white rounded-full'/>
             <Text className='text-white font-psemibold font-semibold mt-2 text-[17px] text-center'>{card.name}</Text>
             <View className='mt-5 p-2 bg-white rounded-xl'>
             <QRCodeStyled
@@ -176,10 +176,9 @@ const Share = () => {
         </View>
 
         <CustomButton
-            title='Scan QR Code'
+            title={t('scanQrCode')}
             handlePress={() => setShowScanner(true)}
             containerStyles="mt-3"
-            // isLoading={isSubmitting}
           />
 
       </ScrollView>
@@ -206,14 +205,14 @@ const Share = () => {
           left: 20,
         }}>
           <TouchableOpacity 
-            onPress={() => setTimeout(() => setShowScanner(false), 1000)}
+            onPress={() => setTimeout(() => setShowScanner(false), 500)}
             style={{
               backgroundColor: 'white',
               padding: 10,
               borderRadius: 5,
             }}
           >
-            <Text>Close</Text>
+            <Text className="text-black font-psemibold">{t('close')}</Text>
           </TouchableOpacity>
         </View>
         {scanned && (
@@ -232,7 +231,7 @@ const Share = () => {
                 alignItems: 'center',
               }}
             >
-              <Text>Tap to Scan Again</Text>
+              <Text className="font-semibold text-xl">{t('scanAgain')}</Text>
             </TouchableOpacity>
           </View>
         )}

@@ -1,29 +1,44 @@
 import React from 'react'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar'
 import { Link, router, Redirect } from 'expo-router'
-import { Text, View, ScrollView, Image, Alert} from 'react-native';
+import { Text, View, ScrollView, Image, TouchableOpacity, Alert} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../lib/supabase'
 import { Session } from '@supabase/supabase-js'
 import { images } from '../constants'
 import CustomButton from '../components/CustomButton';
+import LoadingScreen from '../components/LoadingScreen'; 
 
 const RootLayout = () => {
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if(session) {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000)
         router.replace('/share')
       }
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
       if(session) {
+        setTimeout(() => {
+          setLoading(false);
+        }, 2000)
         router.replace('/share')
       }
     })
   }, [])
+
+  if (loading) {
+    return <LoadingScreen />; 
+  }
 
   return (
     <SafeAreaView className="bg-[#161622] h-full">

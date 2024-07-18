@@ -85,7 +85,7 @@ const Settings = () => {
               <View
                 className="flex-row items-center justify-between p-3">
                 <Image
-                  source={{uri: userInfo.profileImg}}
+                  source={{uri: userInfo.profileImg || 'https://cdn.pixabay.com/photo/2014/04/02/10/25/man-303792_1280.png'}}
                   className="w-14 h-14 rounded-full border-2 border-white"
                 />
 

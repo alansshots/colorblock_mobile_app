@@ -9,6 +9,10 @@ export default {
     // Share Page
     qrCodeText: " Your QR Code is private. Use it to share your personal digital card.",
     copyLink: "Copy Link",
+    scanQrCode: "Scan QR Code",
+    close: "Close",
+    scanAgain: "Scan Again",
+
 
     // Card Page
     name: "Name",

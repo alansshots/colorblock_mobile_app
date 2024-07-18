@@ -4,6 +4,9 @@ export default {
     share: "Сподели",
     myCard: "Моята Карта",
     settings: "Настройки",
+    scanQrCode: "Сканирай QR Код",
+    close: "Затвори",
+    scanAgain: "Сканирай отново",
    
     // Share Page
     qrCodeText: "Вашият QR код уникален. Използвайте го, за да споделяте своята дигитална карта.",

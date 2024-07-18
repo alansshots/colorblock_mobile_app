@@ -47,7 +47,7 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
         placeholder={placeholder}
         placeholderTextColor='#7B7B8B'
         onChangeText={handleChangeText}
-        secureTextEntry={title === 'Password' && !showPassword}
+        secureTextEntry={(title === 'Password' || title === 'Repeat Password') && !showPassword}
         {...props}
       />
     );
@@ -60,7 +60,7 @@ const FormField = ({ title, value, placeholder, handleChangeText, otherStyles, .
       <View className="w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 focus:border-primary flex flex-row items-center">
         {renderInputField()}
 
-        {title === 'Password' && (
+        {(title === 'Password' || title === 'Repeat Password') && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
             <Image
               source={!showPassword ? icons.eye : icons.eyeHide}
