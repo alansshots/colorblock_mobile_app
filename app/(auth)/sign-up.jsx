@@ -48,10 +48,14 @@ const SighUp = () => {
   }
 
   const submit = async () => {
-    if (form.email === "" || form.password === "") {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+    
+    if (form.email === "" || form.password === "" || form.passwordRepeate === "") {
       Alert.alert("Error", "Please fill in all fields");
+    } else if (!emailRegex.test(form.email)) {
+      Alert.alert("Error", "Please enter a valid email address");
     } else if (form.password !== form.passwordRepeate) {
-      Alert.alert("Error", "Passwords do not match" )
+      Alert.alert("Error", "Passwords do not match");
     } else {
       signUpWithEmail(form.email, form.password);
     }

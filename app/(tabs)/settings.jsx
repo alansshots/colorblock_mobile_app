@@ -191,7 +191,7 @@ const Settings = () => {
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
-                  
+                  Linking.openURL('https://play.google.com/store/apps/details?id=com.alansshots.colorblock')
                 }}
                 className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">{t('rateUsOntheAppStore')}</Text>

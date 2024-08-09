@@ -101,6 +101,7 @@ const Card = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState('');
   const [card, setCard] = useState('');
+  const [errors, setErrors] = useState({});
 
   const [form, setForm] = useState({
     name: '',
@@ -149,6 +150,10 @@ const Card = () => {
     };
 
     async function handleCardSubmit() {
+      if (!validateForm()) {
+        return;
+      }
+
       setIsLoading(true);
        const date = new Date();
        const { data, error } = await supabase
@@ -337,6 +342,35 @@ const Card = () => {
         }
       }
     };
+
+    const validateForm = () => {
+      let valid = true;
+      let newErrors = {};
+  
+      if (!form.name) {
+        newErrors.name = t('Name is required.');
+        valid = false;
+      }
+  
+      if (!form.location) {
+        newErrors.location = t('Location is required.');
+        valid = false;
+      }
+  
+      if (!form.bio) {
+        newErrors.bio = t('Bio is required.');
+        valid = false;
+      }
+  
+      if (!form.phone) {
+        newErrors.phone = t('Phone is required.');
+        valid = false;
+      }
+  
+      setErrors(newErrors);
+      setTimeout(() => setErrors({}), 4000)
+      return valid;
+    };
     
 
   return (
@@ -389,6 +423,8 @@ const Card = () => {
             keyboardType="default"
             />
           </View>
+          {errors.name && <Text style={{ color: 'red' }}>{errors.name}</Text>}
+
           <View className="mb-2">
             <FormField 
             title={t('location')}
@@ -398,6 +434,8 @@ const Card = () => {
             keyboardType="default"
             />
           </View>
+          {errors.location && <Text style={{ color: 'red' }}>{errors.location}</Text>}
+
           <View className="mb-2">
             <FormField 
             title={t('bio')}
@@ -407,15 +445,18 @@ const Card = () => {
             keyboardType="default"
             />
           </View>
+          {errors.bio && <Text style={{ color: 'red' }}>{errors.bio}</Text>}
+
           <View className="mb-2">
-          <FormField
-            title={t('phone')}
-            value={form.phone}
-            handleChangeText={(e) => setForm({ ...form, phone: e })}
-            otherStyles='mt-7'
-            keyboardType="numeric"
-          />
-        </View>
+            <FormField
+              title={t('phone')}
+              value={form.phone}
+              handleChangeText={(e) => setForm({ ...form, phone: e })}
+              otherStyles='mt-7'
+              keyboardType="numeric"
+            />
+          </View>
+        {errors.phone && <Text style={{ color: 'red' }}>{errors.phone}</Text>}
 
           <Text className="text-gray-100 mt-7 text-[15px] font-psemibold mb-2">{t('links')}</Text>
 
