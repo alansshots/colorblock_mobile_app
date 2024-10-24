@@ -203,7 +203,7 @@ const Settings = () => {
               <TouchableOpacity
                 onPress={() => {
                   // handle onPress
-                  Linking.openURL('https://policies.google.com/')
+                  Linking.openURL('https://getcolorblock.netlify.app/privacy')
                 }}
                 className="flex-row items-center justify-between">
                 <Text className="text-lg text-white">{t('termsAndPricacy')}</Text>

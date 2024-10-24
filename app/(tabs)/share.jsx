@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert, Linking } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, Image, TouchableOpacity, Alert, Linking, Platform } from 'react-native'
+import { Share as RNShare } from 'react-native'; 
 import { StatusBar } from 'expo-status-bar';
 import * as Clipboard from 'expo-clipboard';
 import * as Sharing from 'expo-sharing';
@@ -142,7 +143,16 @@ const Share = () => {
   };
 
   const shareOnClick = async () => {
-    await Sharing.shareAsync(`https://getcolorblock.netlify.app/card/${card.card_id}`);
+    try {
+      const url = `https://getcolorblock.netlify.app/card/${card.card_id}`;
+      await RNShare.share({
+        message: url,
+        url: url, // iOS only
+      });
+    } catch (error) {
+      console.error("Error sharing:", error);
+      Alert.alert('Error', 'Could not share the link');
+    }
   };
 
   return (
