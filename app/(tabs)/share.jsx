@@ -29,40 +29,6 @@ const Share = () => {
   const [scanned, setScanned] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
 
-  // useEffect(() => {
-  // supabase.auth.getUser().then(({ data: { user } }) => {
-  //     if(user) {
-  //       // setUser(JSON.stringify(user, null, 2));
-  //       setUser(user)
-  //       fetchCard(user.id);
-  //     } else {
-  //       Alert.alert("Error Accessing User");
-  //     }
-  //   })
-    
-  //   const getCameraPermissions = async () => {
-  //     const { status } = await Camera.requestCameraPermissionsAsync();
-  //     setHasPermission(status === "granted");
-  //   };
-
-  //   getCameraPermissions();
-
-  //   const fetchCard = async (userId) => {
-  //   let { data, error } = await supabase
-  //     .from('cards')
-  //     .select("*")
-  //     .eq('user_id', userId);
-
-  //     if (data && data.length > 0) {
-  //       setCard(data[0]);
-  //       // setCard(JSON.stringify(data[0], null, 2));
-  //     } else {
-  //       console.log('Could not fetch the offers')
-  //     }
-
-  // };
-  // }, []);
-
   const fetchCard = async (userId) => {
     let { data, error } = await supabase
       .from('cards')
